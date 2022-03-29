@@ -5,8 +5,8 @@
       <button class="btn btn-primary" @click="remove">Enlever</button>
     </div>
     <div class="container">
-      <TransitionGroup tag="ul">
-        <li class="w-100 card mb-10" v-for="item in items" :key="item">
+      <TransitionGroup name="list" tag="ul">
+        <li class="mb-10 card" v-for="item in items" :key="item">
           {{ item }}
         </li>
       </TransitionGroup>
@@ -17,15 +17,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const nextNum = ref(10);
+let nextNum = ref(10);
 const items = ref<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
 function randomIndex() {
-  return Math.floor(Math.random() * items.length);
+  return Math.floor(Math.random() * items.value.length);
 }
 
 function add() {
-  items.value.splice(randomIndex(), 0, nextNum++);
+  items.value.splice(randomIndex(), 0, nextNum.value++);
 }
 
 function remove() {
@@ -38,21 +38,27 @@ function remove() {
 
 li {
   cursor: pointer;
+  width: 100%;
 }
 
-.list-item {
-  display: inline-block;
-  margin-right: 10px;
-  transition: all 1s;
+.container {
+  position: relative;
+  padding: 0;
 }
 
-.list-enter,
+.list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(30px);
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
 }
 
 .list-leave-active {
-  position: fixed;
+  position: absolute;
 }
 </style>
