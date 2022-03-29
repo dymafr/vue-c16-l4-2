@@ -28,16 +28,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const input = ref('');
-const items = ref<string[]>(['Pomme', 'Fraise', 'Poire']);
+const nextNum = ref(10);
+const items = ref<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
-function addItem() {
-  items.value.push(input.value);
-  input.value = '';
+function randomIndex() {
+  return Math.floor(Math.random() * this.items.length);
 }
 
-function removeItem(index: number) {
-  items.value.splice(index, 1);
+function add() {
+  this.items.splice(this.randomIndex(), 0, this.nextNum++);
+}
+
+function remove() {
+  this.items.splice(this.randomIndex(), 1);
 }
 </script>
 
@@ -48,29 +51,19 @@ li {
   cursor: pointer;
 }
 
-.container {
-  position: relative;
-}
-
-.v-enter-from {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-
-.v-leave-active {
-  width: 100%;
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
   transition: all 1s;
-  position: absolute;
 }
 
-.v-move,
-.v-enter-active {
-  transition: all 1s;
-  transition-delay: calc(var(--i) * 0.2s);
-}
-
-.v-leave-to {
-  transform: translateX(10px);
+.list-enter,
+.list-leave-to {
   opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-leave-active {
+  position: fixed;
 }
 </style>
