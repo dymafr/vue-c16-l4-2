@@ -1,23 +1,12 @@
 <template>
   <div class="p-20">
     <div class="mb-20 d-flex w100 justify-content-center align-items-center">
-      <input
-        v-model="input"
-        @keydown.enter="addItem"
-        type="text"
-        class="flex-fill mr-20"
-      />
-      <button class="btn btn-primary mr-20" @click="addItem">Ajouter</button>
+      <button class="btn btn-primary mr-20" @click="add">Ajouter</button>
+      <button class="btn btn-primary" @click="remove">Enlever</button>
     </div>
     <div class="container">
       <TransitionGroup tag="ul">
-        <li
-          :style="`--i:${index}`"
-          class="w-100 card mb-10"
-          v-for="(item, index) in items"
-          @click="removeItem(index)"
-          :key="item"
-        >
+        <li class="w-100 card mb-10" v-for="item in items" :key="item">
           {{ item }}
         </li>
       </TransitionGroup>
@@ -32,15 +21,15 @@ const nextNum = ref(10);
 const items = ref<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
 function randomIndex() {
-  return Math.floor(Math.random() * this.items.length);
+  return Math.floor(Math.random() * items.length);
 }
 
 function add() {
-  this.items.splice(this.randomIndex(), 0, this.nextNum++);
+  items.value.splice(randomIndex(), 0, nextNum++);
 }
 
 function remove() {
-  this.items.splice(this.randomIndex(), 1);
+  items.value.splice(randomIndex(), 1);
 }
 </script>
 
